@@ -26,7 +26,7 @@
 }
 .modalFW__close,
 .modalFW__refresh{display: block;  text-align: center; font-size: 1.5rem; @include size(1.5rem);opacity: 0.6; cursor: pointer; transition: all 0.3s; flex-grow: 0;
-  & svg{pointer-events:none;}
+  & svg,& i{pointer-events:none;}
   &:hover{opacity: 1;}
   &.modalFW__refresh{font-size: 1.25rem; margin-right: 0.5rem;}
 }
