@@ -25,6 +25,7 @@ module.exports = function(app){
         modal.blnAutoload = (modal.blnAutoload !== undefined) ? modal.blnAutoload : modal.getData('autoload',true);
         modal.blnOpen     = (modal.blnOpen !== undefined)     ? modal.blnOpen     : modal.getData('open',false);
         modal.blnRefresh  = (modal.blnRefresh !== undefined)  ? modal.blnRefresh  : modal.getData('refresh',false);
+        modal.blnDismiss  = (modal.blnDismiss !== undefined)  ? modal.blnDismiss  : modal.getData('dismiss',true);
         modal.content     = (modal.content !== undefined)     ? modal.content     : modal.$el.html();
         modal.buttons     = (modal.buttons !== undefined)     ? modal.buttons     : {};
         modal.onOpen      = (modal.onOpen !== undefined)      ? modal.onOpen      : false;
@@ -232,7 +233,8 @@ module.exports = function(app){
         $('body').on('mouseup','.modalFW',function(e){modalMouseUp = e.target;});
         $('body').on('click','.modalFW',function(e){
             if ($(e.target).hasClass('modalFW') && modalMouseDown == modalMouseUp) {
-                $(this).modalFW('get').close();
+                if ($(this).modalFW('get').blnDismiss)
+                    $(this).modalFW('get').close();
             } else if($(e.target).hasClass('modalFW__close')){
                 $(this).closest('.modalFW').modalFW('get').close();
             }
