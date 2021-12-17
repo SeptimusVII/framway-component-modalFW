@@ -22,6 +22,7 @@ module.exports = function(app){
         modal.width       = (modal.width !== undefined)       ? modal.width       : modal.getData('width',false);
         modal.url         = (modal.url !== undefined)         ? modal.url         : modal.getData('url',false);
         modal.selector    = (modal.selector !== undefined)    ? modal.selector    : modal.getData('selector',false);
+        modal.container   = (modal.container !== undefined)   ? modal.container   : modal.getData('container','body');
         modal.blnAutoload = (modal.blnAutoload !== undefined) ? modal.blnAutoload : modal.getData('autoload',true);
         modal.blnOpen     = (modal.blnOpen !== undefined)     ? modal.blnOpen     : modal.getData('open',false);
         modal.blnRefresh  = (modal.blnRefresh !== undefined)  ? modal.blnRefresh  : modal.getData('refresh',false);
@@ -70,7 +71,8 @@ module.exports = function(app){
             });
 
         modal.$el.html('').append(modal.$wrapper);
-        modal.$el.appendTo($('body'));
+        if (modal.container == "body") 
+            modal.$el.appendTo($('body'));
 
         // actions according to parameters
         if(modal.blnAutoload)
