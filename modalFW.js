@@ -1,6 +1,6 @@
 module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
-    //ModalFW.debug = true;
+    // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
     ModalFW.lastUpdate     = "2.0.0";
     ModalFW.version        = "1";
@@ -17,22 +17,24 @@ module.exports = function(app){
     ModalFW.prototype.onCreate = function(){
         var modal = this;
         // attributes
-        modal.name        = (modal.name !== undefined)        ? modal.name        : modal.getData('name', 'modalFW-'+utils.uniqid());
-        modal.title       = (modal.title !== undefined)       ? modal.title       : modal.getData('title',false);
-        modal.width       = (modal.width !== undefined)       ? modal.width       : modal.getData('width',false);
-        modal.url         = (modal.url !== undefined)         ? modal.url         : modal.getData('url',false);
-        modal.selector    = (modal.selector !== undefined)    ? modal.selector    : modal.getData('selector',false);
-        modal.container   = (modal.container !== undefined)   ? modal.container   : modal.getData('container','body');
-        modal.blnAutoload = (modal.blnAutoload !== undefined) ? modal.blnAutoload : modal.getData('autoload',true);
-        modal.blnOpen     = (modal.blnOpen !== undefined)     ? modal.blnOpen     : modal.getData('open',false);
-        modal.blnRefresh  = (modal.blnRefresh !== undefined)  ? modal.blnRefresh  : modal.getData('refresh',false);
-        modal.blnDismiss  = (modal.blnDismiss !== undefined)  ? modal.blnDismiss  : modal.getData('dismiss',true);
-        modal.content     = (modal.content !== undefined)     ? modal.content     : modal.$el.html();
-        modal.buttons     = (modal.buttons !== undefined)     ? modal.buttons     : {};
-        modal.onOpen      = (modal.onOpen !== undefined)      ? modal.onOpen      : false;
-        modal.onClose     = (modal.onClose !== undefined)     ? modal.onClose     : false;
-        modal.onRefresh   = (modal.onRefresh !== undefined)   ? modal.onRefresh   : false;
-        modal.isOpen      = false;
+        modal.name            = (modal.name !== undefined)              ? modal.name            : modal.getData('name', 'modalFW-'+utils.uniqid());
+        modal.title           = (modal.title !== undefined)             ? modal.title           : modal.getData('title',false);
+        modal.width           = (modal.width !== undefined)             ? modal.width           : modal.getData('width',false);
+        modal.url             = (modal.url !== undefined)               ? modal.url             : modal.getData('url',false);
+        modal.selector        = (modal.selector !== undefined)          ? modal.selector        : modal.getData('selector',false);
+        modal.container       = (modal.container !== undefined)         ? modal.container       : modal.getData('container','body');
+        modal.blnAutoload     = (modal.blnAutoload !== undefined)       ? modal.blnAutoload     : modal.getData('autoload',true);
+        modal.blnOpen         = (modal.blnOpen !== undefined)           ? modal.blnOpen         : modal.getData('open',false);
+        modal.blnRefresh      = (modal.blnRefresh !== undefined)        ? modal.blnRefresh      : modal.getData('refresh',false);
+        modal.blnDismiss      = (modal.blnDismiss !== undefined)        ? modal.blnDismiss      : modal.getData('dismiss',true);
+        modal.blnAutodestroy  = (modal.blnAutodestroy !== undefined)    ? modal.blnAutodestroy  : modal.getData('autodestroy',false);
+        modal.content         = (modal.content !== undefined)           ? modal.content         : modal.$el.html();
+        modal.buttons         = (modal.buttons !== undefined)           ? modal.buttons         : {};
+        modal.onOpen          = (modal.onOpen !== undefined)            ? modal.onOpen          : function(){ modal.log('onOpen'); };
+        modal.onClose         = (modal.onClose !== undefined)           ? modal.onClose         : function(){ modal.log('onClose'); };
+        modal.onRefresh       = (modal.onRefresh !== undefined)         ? modal.onRefresh       : function(){ modal.log('onRefresh'); };
+        modal.isOpen          = false;
+
 
         if(ModalFW.debug) console.log("Creating "+modal.name+" ... ");
         // abort if the modal already exist
@@ -156,7 +158,7 @@ module.exports = function(app){
     };
     ModalFW.prototype.open = function(){
         var modal = this;
-        $.each(app.components_active.modalFW.filter(function(item){return !Object.is(item,modal);}),function(){ this.close(); });
+        $.each(app.components_active.modalFW.filter(function(item){return !Object.is(item,modal);}),function(){ if (this.isOpen) this.close(); });
         $('html').addClass('no-overflow');
         modal.$el.scrollTop(0);
         modal.$el.addClass('active');
@@ -172,8 +174,17 @@ module.exports = function(app){
         $('html').removeClass('no-overflow');
         modal.$el.removeClass('active');
         modal.isOpen = false;
-        if(modal.onClose)
-            modal.onClose();
+        if(modal.onClose){
+            if (modal.blnAutodestroy) {
+                Promise.resolve(modal.onClose()).then(function(){
+                    setTimeout(function(){
+                        modal.destroy();
+                    },parseFloat(getComputedStyle(modal.$el.get(0))['transitionDuration'])*1000)
+                });
+            } else{
+                modal.onClose();
+            }
+        }
         return modal;
     };
     ModalFW.prototype.refresh = function(){
