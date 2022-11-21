@@ -1,6 +1,6 @@
 module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
-    // ModalFW.debug = true;
+    ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
     ModalFW.lastUpdate     = "2.0.0";
     ModalFW.version        = "1";
@@ -159,7 +159,7 @@ module.exports = function(app){
     ModalFW.prototype.open = function(){
         var modal = this;
         $.each(app.components_active.modalFW.filter(function(item){return !Object.is(item,modal);}),function(){ if (this.isOpen) this.close(); });
-        $('html').addClass('no-overflow');
+        $('html').addClass('no-scroll');
         modal.$el.scrollTop(0);
         modal.$el.addClass('active');
         modal.isOpen = true;
@@ -171,7 +171,7 @@ module.exports = function(app){
     };
     ModalFW.prototype.close = function(){
         var modal = this;
-        $('html').removeClass('no-overflow');
+        $('html').removeClass('no-scroll');
         modal.$el.removeClass('active');
         modal.isOpen = false;
         if(modal.onClose){
