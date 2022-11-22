@@ -269,17 +269,17 @@ module.exports = function(app){
     $(function () {
         $('body').on('click','.modalFW__arrow',function(e){
             var gallery = $(this).closest('.modalFW').attr('data-gallery');
-            var current = parseInt($(this).closest('.modalFW').attr('data-name').replace(gallery+'--',''));
+            var current = parseInt($(this).closest('.modalFW').attr('data-name').replace(gallery+'__',''));
             var next;
             if ($(this).hasClass('prev'))
                 next = (current - 1 >= 0) ? current - 1 : $('.modalFW[data-gallery='+gallery+']').length - 1;
             else if ($(this).hasClass('next')){
                 next = (current + 1 <= ($('.modalFW[data-gallery='+gallery+']').length - 1)) ? current + 1 : 0; 
             }
-            if ($('.modalFW[data-name='+gallery+'--'+next+']').length) 
-                $('.modalFW[data-name='+gallery+'--'+next+']').modalFW('get').open();
-            else if($('.modalFW__trigger[data-modal='+gallery+'--'+next+']').length)
-                $('.modalFW__trigger[data-modal='+gallery+'--'+next+']').first().trigger('click')
+            if ($('.modalFW[data-name='+gallery+'__'+next+']').length) 
+                $('.modalFW[data-name='+gallery+'__'+next+']').modalFW('get').open();
+            else if($('.modalFW__trigger[data-modal='+gallery+'__'+next+']').length)
+                $('.modalFW__trigger[data-modal='+gallery+'__'+next+']').first().trigger('click')
         });
         $('body').on('click','.modalFW__refresh',function(e){
             $(this).closest('.modalFW').modalFW('get').refresh();
