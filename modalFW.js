@@ -33,6 +33,7 @@ module.exports = function(app){
         modal.onOpen          = (modal.onOpen !== undefined)            ? modal.onOpen          : function(){ modal.log('onOpen'); };
         modal.onClose         = (modal.onClose !== undefined)           ? modal.onClose         : function(){ modal.log('onClose'); };
         modal.onRefresh       = (modal.onRefresh !== undefined)         ? modal.onRefresh       : function(){ modal.log('onRefresh'); };
+        modal.gallery         = (modal.gallery !== undefined)           ? modal.gallery         : modal.getData('gallery',false);
         modal.isOpen          = false;
 
 
@@ -52,6 +53,8 @@ module.exports = function(app){
 
         // html construct
         modal.$el.attr('data-name',modal.name);
+        if (modal.gallery)
+            modal.$el.attr('data-gallery',modal.gallery);
         modal.$wrapper = $('<div class="modalFW__wrapper"></div>');
         modal.$header  = $('<div class="modalFW__header"></div>');
         modal.$content = $('<div class="modalFW__content"></div>');
@@ -75,6 +78,13 @@ module.exports = function(app){
         modal.$el.html('').append(modal.$wrapper);
         if (modal.container == "body") 
             modal.$el.appendTo($('body'));
+        
+        if (modal.gallery){
+            modal.$el
+                .append('<div class="modalFW__arrow prev"></div>')
+                .append('<div class="modalFW__arrow next"></div>')
+            ;
+        }
 
         // actions according to parameters
         if(modal.blnAutoload)
@@ -163,6 +173,8 @@ module.exports = function(app){
         modal.$el.scrollTop(0);
         modal.$el.addClass('active');
         modal.isOpen = true;
+        if (modal.gallery) 
+            document.addEventListener('keyup', ModalFW.galleryNav);
         if(!modal.autoload && !this.$el.hasClass('ready'))
             modal.setContent();
         if(modal.onOpen)
@@ -174,6 +186,8 @@ module.exports = function(app){
         $('html').removeClass('no-scroll');
         modal.$el.removeClass('active');
         modal.isOpen = false;
+        if (modal.gallery) 
+            document.removeEventListener('keyup', ModalFW.galleryNav);
         if(modal.onClose){
             if (modal.blnAutodestroy) {
                 Promise.resolve(modal.onClose()).then(function(){
@@ -196,8 +210,28 @@ module.exports = function(app){
         return modal;
     };
 
+    ModalFW.galleryNav = function(event){
+        console.log(event);
+        switch(event.which){
+            case 27: // escape
+                $('.modalFW.active .modalFW__close').trigger('click');
+                break;
+            case 37: // left
+                console.log('go prev');
+                $('.modalFW.active .modalFW__arrow.prev').trigger('click');
+                break;
+            case 39: // right
+                console.log('go next');
+                $('.modalFW.active .modalFW__arrow.next').trigger('click');
+                break;
+            case 38: // up
+            case 40: // down
+            default: return; // exit this handler for other keys
+        }
+        event.preventDefault();
+    };
 
-    var createModalFromTrigger = function($trigger){
+    ModalFW.createModalFromTrigger = function($trigger){
         $trigger = $($trigger).addClass('modalFW__trigger');
         if(ModalFW.debug) console.log("Trying to create modal "+$trigger.data('modal')+" ...");
         if(!$('.modalFW[data-name="'+$trigger.data('modal')+'"]').length){
@@ -216,6 +250,7 @@ module.exports = function(app){
                 blnOpen : $trigger.data('open'),
                 blnAutoload : $trigger.data('autoload'),
                 blnRefresh : $trigger.data('refresh'),
+                gallery : $trigger.data('gallery'),
                 $trigger : $trigger
             };
             if($trigger.data('content'))
@@ -232,6 +267,20 @@ module.exports = function(app){
     }
 
     $(function () {
+        $('body').on('click','.modalFW__arrow',function(e){
+            var gallery = $(this).closest('.modalFW').attr('data-gallery');
+            var current = parseInt($(this).closest('.modalFW').attr('data-name').replace(gallery+'--',''));
+            var next;
+            if ($(this).hasClass('prev'))
+                next = (current - 1 >= 0) ? current - 1 : $('.modalFW[data-gallery='+gallery+']').length - 1;
+            else if ($(this).hasClass('next')){
+                next = (current + 1 <= ($('.modalFW[data-gallery='+gallery+']').length - 1)) ? current + 1 : 0; 
+            }
+            if ($('.modalFW[data-name='+gallery+'--'+next+']').length) 
+                $('.modalFW[data-name='+gallery+'--'+next+']').modalFW('get').open();
+            else if($('.modalFW__trigger[data-modal='+gallery+'--'+next+']').length)
+                $('.modalFW__trigger[data-modal='+gallery+'--'+next+']').first().trigger('click')
+        });
         $('body').on('click','.modalFW__refresh',function(e){
             $(this).closest('.modalFW').modalFW('get').refresh();
         });
@@ -254,12 +303,12 @@ module.exports = function(app){
         });
 
         $('*[data-modal]').not('.modalFW__trigger').each(function(){
-            createModalFromTrigger(this);
+            ModalFW.createModalFromTrigger(this);
         });
         utils.addHtmlHook('*[data-modal]:not(.modalFW__trigger)', function(item){
             $(item).each(function(){
                 if(ModalFW.debug) app.log("Trigger added to dom for modal "+$(this).data('modal'));
-                createModalFromTrigger(this);
+                ModalFW.createModalFromTrigger(this);
             })
         });
 
