@@ -1,6 +1,6 @@
 module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
-    ModalFW.debug = true;
+    // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
     ModalFW.lastUpdate     = "2.0.0";
     ModalFW.version        = "1";
