@@ -28,6 +28,11 @@ module.exports = function(app){
         modal.blnRefresh      = (modal.blnRefresh !== undefined)        ? modal.blnRefresh      : modal.getData('refresh',false);
         modal.blnDismiss      = (modal.blnDismiss !== undefined)        ? modal.blnDismiss      : modal.getData('dismiss',true);
         modal.blnAutodestroy  = (modal.blnAutodestroy !== undefined)    ? modal.blnAutodestroy  : modal.getData('autodestroy',false);
+        if (app.components.includes('select2FW') && $(modal.$el).find('.select2FW-wrapper')) {
+            $(modal.$el).find('.select2FW-wrapper').each(function(){
+                $(this).find('select:not(.custom)').select2FW('get').reset();
+            })
+        }
         modal.content         = (modal.content !== undefined)           ? modal.content         : modal.$el.html();
         modal.buttons         = (modal.buttons !== undefined)           ? modal.buttons         : {};
         modal.onOpen          = (modal.onOpen !== undefined)            ? modal.onOpen          : function(){ modal.log('onOpen'); };
