@@ -80,7 +80,8 @@ module.exports = function(app){
                 'max-width' : '100%'
             });
 
-        modal.$el.html('').append(modal.$wrapper);
+        modal.$el.get(0).innerHTML = '';
+        modal.$el.append(modal.$wrapper);
         if (modal.container == "body") 
             modal.$el.appendTo($('body'));
         
