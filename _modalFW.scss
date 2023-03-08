@@ -3,6 +3,7 @@
   @include media-max(xxs){padding: 0;}
   &:not(.active) *{pointer-events: none !important;}
   &.active{opacity: 1;visibility: visible; pointer-events: all;}
+  .w-full{width: 100%; transform: none; left: auto;}
 }
 .modalFW__wrapper{@extend %paper !optional; position: relative;  opacity: 0; visibility: hidden; transform: translateY(-50%); transition: all 0.4s; background: body(background); border-radius: $radius; min-height: 0; width: 100%; width: fit-content; margin: auto;
   max-width: 60vw; 

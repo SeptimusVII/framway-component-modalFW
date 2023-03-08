@@ -2,8 +2,8 @@ module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
-    ModalFW.lastUpdate     = "2.0.0";
-    ModalFW.version        = "1";
+    ModalFW.lastUpdate     = "2.0.2";
+    ModalFW.version        = "1.1.0";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -22,6 +22,7 @@ module.exports = function(app){
         modal.width           = (modal.width !== undefined)             ? modal.width           : modal.getData('width',false);
         modal.url             = (modal.url !== undefined)               ? modal.url             : modal.getData('url',false);
         modal.selector        = (modal.selector !== undefined)          ? modal.selector        : modal.getData('selector',false);
+        modal.removeEl        = (modal.removeEl !== undefined)          ? modal.removeEl        : modal.getData('removeel','').split(',');
         modal.container       = (modal.container !== undefined)         ? modal.container       : modal.getData('container','body');
         modal.blnAutoload     = (modal.blnAutoload !== undefined)       ? modal.blnAutoload     : modal.getData('autoload',true);
         modal.blnOpen         = (modal.blnOpen !== undefined)           ? modal.blnOpen         : modal.getData('open',false);
@@ -161,6 +162,9 @@ module.exports = function(app){
                         // result = new DOMParser().parseFromString(result, 'text/html');
                         if(modal.selector && $(result).find(modal.selector).length)
                             result = $(result).find(modal.selector);
+                        if (modal.removeEl.length) 
+                            for (var selector of modal.removeEl) 
+                                $(result).find(selector).remove();
                         modal.$content.html(result);
                         modal.$el.addClass('ready');
                     }).catch(function(error){
@@ -256,6 +260,7 @@ module.exports = function(app){
                 name : $trigger.data('modal'),
                 title: $trigger.data('title'),
                 selector: $trigger.data('selector'),
+                removeEl: $trigger.data('removeel')?$trigger.data('removeel').split(','):false,
                 blnOpen : $trigger.data('open'),
                 blnAutoload : $trigger.data('autoload'),
                 blnRefresh : $trigger.data('refresh'),
