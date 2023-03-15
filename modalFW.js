@@ -182,7 +182,7 @@ module.exports = function(app){
     ModalFW.prototype.open = function(){
         var modal = this;
         $.each(app.components_active.modalFW.filter(function(item){return !Object.is(item,modal);}),function(){ if (this.isOpen) this.close(); });
-        $('html').addClass('no-scroll');
+        $('html').addClass('overflow-hidden');
         modal.$el.scrollTop(0);
         modal.$el.addClass('active');
         modal.isOpen = true;
@@ -196,7 +196,7 @@ module.exports = function(app){
     };
     ModalFW.prototype.close = function(){
         var modal = this;
-        $('html').removeClass('no-scroll');
+        $('html').removeClass('overflow-hidden');
         modal.$el.removeClass('active');
         modal.isOpen = false;
         if (modal.gallery) 
