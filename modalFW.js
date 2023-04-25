@@ -2,8 +2,8 @@ module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
-    ModalFW.lastUpdate     = "2.0.2";
-    ModalFW.version        = "1.1.0";
+    ModalFW.lastUpdate     = "2.1.0";
+    ModalFW.version        = "1.2.0";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -283,17 +283,30 @@ module.exports = function(app){
     $(function () {
         $('body').on('click','.modalFW__arrow',function(e){
             var gallery = $(this).closest('.modalFW').attr('data-gallery');
-            var current = parseInt($(this).closest('.modalFW').attr('data-index').replace(gallery+'__',''));
-            var next;
-            if ($(this).hasClass('prev'))
-                next = (current - 1 >= 0) ? current - 1 : $('.modalFW[data-gallery='+gallery+']').length - 1;
-            else if ($(this).hasClass('next')){
-                next = (current + 1 <= ($('.modalFW[data-gallery='+gallery+']').length - 1)) ? current + 1 : 0; 
+            var current, next;
+            if ($('.modalFW[data-gallery='+gallery+']').length>1) {
+                // console.log('navigating through existing modals');
+                current = parseInt($(this).closest('.modalFW').attr('data-index').replace(gallery+'__',''));
+                if ($(this).hasClass('prev'))
+                    next = (current - 1 >= 0) ? current - 1 : $('.modalFW[data-gallery='+gallery+']').length - 1;
+                else if ($(this).hasClass('next')){
+                    next = (current + 1 <= ($('.modalFW[data-gallery='+gallery+']').length - 1)) ? current + 1 : 0; 
+                }
+                if ($('.modalFW[data-gallery='+gallery+'][data-index='+next+']').length) 
+                    $('.modalFW[data-gallery='+gallery+'][data-index='+next+']').modalFW('get').open();
+            } else if($('.modalFW__trigger[data-gallery='+gallery+']').length>1){
+                // console.log('navigating through modals triggers');
+                current = $('.modalFW__trigger[data-gallery='+gallery+']').index($(this).closest('.modalFW').modalFW('get').$trigger);
+                if ($(this).hasClass('prev'))
+                    next = (current - 1 >= 0) ? current - 1 : $('.modalFW__trigger[data-gallery='+gallery+']').length - 1;
+                else if ($(this).hasClass('next')){
+                    next = (current + 1 <= ($('.modalFW__trigger[data-gallery='+gallery+']').length - 1)) ? current + 1 : 0; 
+                }
+                if($('.modalFW__trigger[data-gallery='+gallery+']').eq(next).length)
+                    $('.modalFW__trigger[data-gallery='+gallery+']').eq(next).first().trigger('click')
             }
             // console.log(current,next)
             // console.log($('.modalFW[data-gallery='+gallery+'][data-index='+next+']').modalFW('get'));
-            if ($('.modalFW[data-gallery='+gallery+'][data-index='+next+']').length) 
-                $('.modalFW[data-gallery='+gallery+'][data-index='+next+']').modalFW('get').open();
         });
         $('body').on('click','.modalFW__refresh',function(e){
             $(this).closest('.modalFW').modalFW('get').refresh();
