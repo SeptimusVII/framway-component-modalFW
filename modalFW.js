@@ -3,7 +3,7 @@ module.exports = function(app){
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
     ModalFW.lastUpdate     = "2.1.0";
-    ModalFW.version        = "1.2.0";
+    ModalFW.version        = "1.2.1";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -269,10 +269,10 @@ module.exports = function(app){
             };
             if($trigger.data('content'))
                 objConfig.content = $trigger.data('content');
-            else if($trigger.attr('href'))
-                objConfig.url = $trigger.attr('href');
             else if($trigger.data('url'))
                 objConfig.url = $trigger.data('url');
+            else if($trigger.attr('href'))
+                objConfig.url = $trigger.attr('href');
             var modal = new ModalFW(objConfig);
         } else {
             if(ModalFW.debug) console.log("Modal "+$trigger.data('modal')+" already exist. Aborting creation \n ");
