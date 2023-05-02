@@ -5,7 +5,7 @@
   &.active{opacity: 1;visibility: visible; pointer-events: all;}
   .w-full{width: 100%; transform: none; left: auto;}
 }
-.modalFW__wrapper{@extend %paper !optional; position: relative;  opacity: 0; visibility: hidden; transform: translateY(-50%); transition: all 0.4s; background: body(background); border-radius: $radius; min-height: 0; width: 100%; width: fit-content; margin: auto;
+.modalFW__wrapper{@include paper(); position: relative;  opacity: 0; visibility: hidden; transform: translateY(-50%); transition: all 0.4s; background: body(background); border-radius: $radius; min-height: 0; width: 100%; width: fit-content; margin: auto;
   max-width: 60vw; 
   .modalFW--img &{max-width: 80vw;}
   @include media-max(md){max-width: 80vw; }
