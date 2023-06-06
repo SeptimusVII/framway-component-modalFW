@@ -2,8 +2,8 @@ module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
-    ModalFW.lastUpdate     = "2.2.1";
-    ModalFW.version        = "1.2.2";
+    ModalFW.lastUpdate     = "2.3.0";
+    ModalFW.version        = "1.2.3";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -87,9 +87,9 @@ module.exports = function(app){
             modal.$el.appendTo($('body'));
         
         if (modal.gallery){
-            modal.$el.attr('data-index',Array.from(document.querySelectorAll('.modalFW[data-gallery='+modal.gallery+']')).findIndex(function(el){
-                return el == modal.$el.get(0)
-            }));
+            var i = (utils.getObjBy(app.components_active.modalFW,'gallery',modal.gallery).length - 1) | 0;
+            modal.galleryIndex = i;
+            modal.$el.attr('data-index',i)
             modal.$el
                 .append('<div class="modalFW__arrow prev"></div>')
                 .append('<div class="modalFW__arrow next"></div>')
