@@ -224,17 +224,17 @@ module.exports = function(app){
     };
 
     ModalFW.galleryNav = function(event){
-        console.log(event);
+        // console.log(event);
         switch(event.which){
             case 27: // escape
                 $('.modalFW.active .modalFW__close').trigger('click');
                 break;
             case 37: // left
-                console.log('go prev');
+                // console.log('go prev');
                 $('.modalFW.active .modalFW__arrow.prev').trigger('click');
                 break;
             case 39: // right
-                console.log('go next');
+                // console.log('go next');
                 $('.modalFW.active .modalFW__arrow.next').trigger('click');
                 break;
             case 38: // up
