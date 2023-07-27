@@ -1,40 +1,42 @@
-
-
-<a href="" class="btn" data-modal="modal--1" >Open Modal 1</a>
-<div class="modalFW" data-name="modal--1" data-autoload="true" data-open="false" data-refresh="true" data-title="This modal is generated from raw html" data-autodestroy="true">
-  <p>
-    Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
-  </p>
+<div class="p-y txt-center">
+  <a href="" class="btn" data-modal="modal--1" >Open Modal 1</a>
+  <div class="modalFW" data-name="modal--1" data-title="This modal is generated from raw html" data-refresh="false" data-open="false" data-autodestroy="false">
+    <p>
+      Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
+    </p>
+    <button onclick="$('.modalFW[data-name=modal--1]').modalFW('get').destroy();">Destroy me to apply changes</button>
+  </div>
+  <script>
+    $(function(){
+      var modal = new app.ModalFW({
+        name : 'modal--2',
+        content: 'Modal created from javascript :)',
+        gallery: 'modalGallerySample',
+        onClose: function(){
+          console.log('closed');
+          // this.destroy();
+        },
+        onOpen: function(){
+          console.log('opened');
+        },
+        onRefresh: function(){
+          console.log('refreshed');
+        },
+      });
+    });
+  </script>
+  <button class="btn-bd-primary" data-modal="modal--2">Modal javascript</button>
+  <a href="http://vansteenequentin.com/test.html" class="btn-bd-primary" data-modal="modal--3" data-gallery="modalGallerySample" data-title="Content loaded from an external source">Modal external content</a>
+  <button data-url="http://img-comment-fun.9cache.com/media/6aa41d4cdb9078b77a18532a767a6efa_700wa_0.gif" data-title="Modal with a single image displayed" class="btn-bd-primary" data-modal="modal--4" data-gallery="modalGallerySample">Modal picture</button>
 </div>
 
-<hr>
-
-<script>
-  $(function(){
-    var modal = new app.ModalFW({
-      name : 'modal--2',
-      content: 'Modal created from a javascript object :)',
-      onClose: function(){
-        console.log('closed');
-        // this.destroy();
-      },
-      onOpen: function(){
-        console.log('opened');
-      },
-      onRefresh: function(){
-        console.log('refreshed');
-      },
-    });
-  });
-</script>
-<button data-modal="modal--2">button</button>
-
-<hr>
-
-<p>Modals can load external content, from the href or data-url attribute of a trigger</p>
-<a href="http://vansteenequentin.com/test.html" class="btn" data-refresh="true" data-modal="modal--3">Open modal 4</a>
-
-<hr>
-
-<p>Images can be loaded too, with a special display</p> 
-<a href="http://vansteenequentin.com/img/san_francisco_tramway.jpg" data-title="Modal with a single image displayed" class="btn" data-refresh=true data-modal="modal--4">Open modal 5</a>
+<constructor component="modalFW">
+  <field type="separator" label="Modal properties"></field>
+  <field type="checkbox" label="Auto load" target="data-autoload" selected="true" helper="The modal content load as soon as possible. If set to false, the content will load only when opening.(default true)"></field>
+  <field type="checkbox" label="Auto open" target="data-open" selected="" helper="Open the modal as soon as content is loaded"></field>
+  <field type="checkbox" label="Auto destroy" target="data-autodestroy" selected="" helper="Modal self destroy when closing"></field>
+  <field type="checkbox" label="Dismiss" target="data-dismiss" selected="true" helper="Allow closing modal by clicking outside its body (default true)"></field>
+  <field type="text" label="Width" target="data-width"  value="40vw" helper="Set modal's optimal width"></field>
+  <field type="empty"></field>
+  <field type="checkbox" label="Refresh button" target="data-refresh" selected="" helper="Append a button allowing to refresh the modal's content. Useful for dynamically loaded content"></field>
+</constructor>
