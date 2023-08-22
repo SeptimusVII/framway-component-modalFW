@@ -3,7 +3,7 @@ module.exports = function(app){
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
     ModalFW.lastUpdate     = "2.4.0";
-    ModalFW.version        = "1.2.4";
+    ModalFW.version        = "1.2.5";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -303,7 +303,7 @@ module.exports = function(app){
                     next = (current + 1 <= ($('.modalFW__trigger[data-gallery='+gallery+']').length - 1)) ? current + 1 : 0; 
                 }
                 if($('.modalFW__trigger[data-gallery='+gallery+']').eq(next).length)
-                    $('.modalFW__trigger[data-gallery='+gallery+']').eq(next).first().trigger('click')
+                    $('.modalFW__trigger[data-gallery='+gallery+']').eq(next).get(0).dispatchEvent(new Event('click'))
             }
             // console.log(current,next)
             // console.log($('.modalFW[data-gallery='+gallery+'][data-index='+next+']').modalFW('get'));
