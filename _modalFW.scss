@@ -60,7 +60,7 @@
   @include media-max(xxs){padding: 1rem 2rem 2.5rem;}
   .ready &{visibility: visible; opacity: 1;}
   .modalFW--img &{padding: 0;
-    &:after{@include pseudo(); @include size(100%,100%);top: 0;left: 0; z-index: 1;opacity: 0.2; background: radial-gradient(transparent 40%, #111414), rgba(0, 0, 0, 0.01);}
+    &:after{@include pseudo(); @include size(100%,100%);top: 0;left: 0; z-index: 1;opacity: 0.2; background: radial-gradient(transparent 40%, #111414), rgba(0, 0, 0, 0.01); pointer-events: none;}
     img{max-height: 85vh;}
   }
   &>*:last-child{margin-bottom: 0;}
