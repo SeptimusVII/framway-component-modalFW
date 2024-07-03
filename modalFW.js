@@ -2,7 +2,7 @@ module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
-    ModalFW.lastUpdate     = "2.4.0";
+    ModalFW.lastUpdate     = "2.5.0";
     ModalFW.version        = "1.2.5";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
@@ -46,7 +46,7 @@ module.exports = function(app){
         if(ModalFW.debug) console.log("Creating "+modal.name+" ... ");
         // abort if the modal already exist
         if(utils.getObjBy(app.components_active.modalFW,'name',modal.name).length){
-            if(ModalFW.debug) console.log("Modal "+modal.name+" has been detected a duplicate and will be destroyed");
+            if(ModalFW.debug) console.log("Modal "+modal.name+" has been detected a duplicate. Aborting modal creation. \n ");
             modal.destroy();
             return false;
         }
