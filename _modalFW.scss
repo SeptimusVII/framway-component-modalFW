@@ -14,6 +14,7 @@
   .modalFW.active &{opacity: 1;visibility: visible; transform: translateY(0);}
   .modalFW:not(.ready) &{min-height: 8rem; min-width: 16rem;}
   .modalFW:not(.modalFW--img) &{min-width: 20vw;}
+  .modalFW.no-bg &{background: none; box-shadow: none;}
 }
 
 .modalFW__arrow{position: absolute; top: 0; width: 10vw; max-width: 10vw; height: 100%; cursor: pointer; color: #fff;
@@ -55,6 +56,7 @@
   & svg,& i{pointer-events:none;}
   &:hover{opacity: 1;}
   &.modalFW__refresh{font-size: 1.25rem; margin-right: 0.5rem;}
+  .modalFW.no-bg &{color: #fff;}
 }
 .modalFW__content{visibility: hidden; opacity: 0; transition: opacity 0.4s; padding: 1.25rem 3rem 3rem;
   @include media-max(xxs){padding: 1rem 2rem 2.5rem;}
@@ -64,6 +66,7 @@
     img{max-height: 85vh;}
   }
   &>*:last-child{margin-bottom: 0;}
+  .modalFW.no-bg &{padding: 0rem 2rem 2rem;}
 }
 
 .modalFW__footer{line-height: 1.5rem; display: flex; justify-content: flex-end; padding: 0.5rem;
