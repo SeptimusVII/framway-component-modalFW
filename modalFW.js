@@ -2,8 +2,8 @@ module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
-    ModalFW.lastUpdate     = "2.5.1";
-    ModalFW.version        = "1.2.7";
+    ModalFW.lastUpdate     = "2.5.2";
+    ModalFW.version        = "1.3.0";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -40,6 +40,7 @@ module.exports = function(app){
         modal.onClose         = (modal.onClose !== undefined)           ? modal.onClose         : function(){ modal.log('onClose'); };
         modal.onRefresh       = (modal.onRefresh !== undefined)         ? modal.onRefresh       : function(){ modal.log('onRefresh'); };
         modal.gallery         = (modal.gallery !== undefined)           ? modal.gallery         : modal.getData('gallery',false);
+        modal.headerSticky    = (modal.headerSticky !== undefined)      ? modal.headerSticky    : modal.getData('headersticky',false);
         modal.isOpen          = false;
 
 
@@ -61,6 +62,8 @@ module.exports = function(app){
         modal.$el.attr('data-name',modal.name);
         if (modal.gallery)
             modal.$el.attr('data-gallery',modal.gallery);
+        if (modal.headerSticky)
+            modal.$el.addClass('modalFW--headerSticky');
         modal.$wrapper = $('<div class="modalFW__wrapper"></div>');
         modal.$header  = $('<div class="modalFW__header"></div>');
         modal.$content = $('<div class="modalFW__content"></div>');

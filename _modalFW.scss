@@ -1,6 +1,22 @@
-.modalFW{position: fixed; top: 0;left: 0; z-index: 100000; background: rgba(#000,0.6); pointer-events: none; width: 100vw;height: 100vh; overflow: auto; color: body(font-color); word-break: break-word; opacity: 0; visibility: hidden; transition: opacity 0.3s; display: flex;padding: 10vh 0; transform: translateZ(0);
-  @include media-max(xs){padding: 5vw 0;}
-  @include media-max(xxs){padding: 0;}
+.modalFW{
+  --modal-p-y: 10vh;
+  position: fixed; 
+  top: 0;left: 0; 
+  z-index: 100000; 
+  background: rgba(#000,0.6); 
+  pointer-events: none; 
+  width: 100vw;height: 100vh; 
+  overflow: auto; 
+  color: body(font-color); 
+  word-break: break-word; 
+  opacity: 0; 
+  visibility: hidden; 
+  transition: opacity 0.3s; 
+  display: flex;
+  padding: var(--modal-p-y) 0; 
+  transform: translateZ(0);
+  @include media-max(xs){ --modal-p-y: 5vw; }
+  @include media-max(xxs){--modal-p-y: 0; }
   &:not(.active) *{pointer-events: none !important;}
   &.active{opacity: 1;visibility: visible; pointer-events: all;}
   .w-full{width: 100%; transform: none; left: auto;}
@@ -44,6 +60,7 @@
   .ready &{visibility: hidden; opacity: 0;}
 }
 .modalFW__header{line-height: 1.5rem; display: flex; justify-content: flex-end; padding: 0.5rem;
+  .modalFW--headerSticky &{position: sticky; top: calc(var(--modal-p-y,0) * -1); background: inherit;}
   .modalFW--img &{position: absolute; right: 0; left: 0; bottom: 100%;color: #fff; text-shadow: 2px 2px 2px rgba(0,0,0,.5);padding: 0 0 0.25rem; }
 }
 .modalFW__title{font-weight: bold; padding: 0 0 0.75rem; margin: 0.5rem 1.5rem 0 1rem; border-bottom: 1px solid rgba(body(font-color),0.3); flex-grow: 1; line-height: 1.2;visibility: hidden; opacity: 0; transition: opacity 0.4s;
