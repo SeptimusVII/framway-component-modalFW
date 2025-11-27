@@ -2,8 +2,8 @@ module.exports = function(app){
     var ModalFW = Object.getPrototypeOf(app).ModalFW = new app.Component("modalFW");
     // ModalFW.debug = true;
     ModalFW.createdAt      = "2.0.0";
-    ModalFW.lastUpdate     = "2.5.2";
-    ModalFW.version        = "1.4.1";
+    ModalFW.lastUpdate     = "2.7.0";
+    ModalFW.version        = "1.4.2";
     // ModalFW.factoryExclude = true;
     // ModalFW.loadingMsg     = "This message will display in the console when component will be loaded.";
     // ModalFW.requires       = [];
@@ -266,6 +266,8 @@ module.exports = function(app){
                 removeEl: $trigger.data('removeel')?$trigger.data('removeel').split(','):false,
                 blnOpen : $trigger.data('open'),
                 blnAutoload : $trigger.data('autoload'),
+                blnAutodestroy : $trigger.data('autodestroy'),
+                blnDismiss : $trigger.data('dismiss'),
                 blnRefresh : $trigger.data('refresh'),
                 gallery : $trigger.data('gallery'),
                 $trigger : $trigger
